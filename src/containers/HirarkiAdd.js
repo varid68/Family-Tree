@@ -155,7 +155,16 @@ function HirarkiAdd() {
       return
     }
 
-    _fields.hirarki_id = Number(_fields.data[0].id)
+    _fields.id_hirarki = Number(_fields.data[0].id)
+    _fields.data.map(item => item.id = Number(item.id))
+    _fields.data.forEach(item => {
+      _fields.data.forEach(val => {
+        if (item.parent === val.name) {
+          item.pid = val.id
+        }
+      })
+    })
+
     setLoading(true)
 
     insertData('http://127.0.0.1:3333/v1/hirarkis', _fields)
